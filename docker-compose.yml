@@ -1,0 +1,77 @@
+services:
+  nginx:
+    image: nginx:1.27-alpine
+    ports:
+      - "${FRONTEND_PORT}:3000"
+      - "${BACKEND_PORT}:8000"
+    networks:
+      - net
+    volumes:
+      - ./.docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./frontend:/var/www/frontend
+      - ./backend:/var/www/backend
+    depends_on:
+      - frontend
+      - backend
+
+  frontend:
+    build: .docker/frontend
+    networks:
+      - net
+    volumes:
+      - ./frontend:/var/www/frontend
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: .docker/backend
+      args:
+        HOST_UID: $HOST_UID
+    networks:
+      - net
+    volumes:
+      - ./backend:/var/www/backend
+    depends_on:
+      - database
+      - redis
+
+  database:
+    image: postgres:17-alpine
+    restart: always
+    shm_size: 256mb
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    networks:
+      - net
+    volumes:
+      - postgresql-data:/var/lib/postgresql
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    networks:
+      - net
+    volumes:
+      - redisdata:/data
+
+  mailpit:
+    image: 'axllent/mailpit:latest'
+    ports:
+        - '${MAILPIT_PORT:-1025}:1025'
+        - '${MAILPIT_DASHBOARD_PORT:-8025}:8025'
+    networks:
+        - net
+
+networks:
+  net:
+    driver: bridge
+
+volumes:
+  postgresql-data:
+
+  redisdata:
