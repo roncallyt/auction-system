@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'dicebear' => [
+        'api_url' => env('DICEBEAR_API_URL')
+    ]
+
 ];
