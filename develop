@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 
-export APP_ENV=${APP_ENV:-local}
-export APP_PORT=${APP_PORT:-80}
-
 COMPOSE="docker compose --env-file=.docker/.env"
 
 if [ $# -gt 0 ];then
 
+    # Run artisan commands inside backend container
     if [ "$1" == "art" ] || [ "$1" == "artisan" ]; then
         shift 1
         $COMPOSE run --rm \
@@ -14,6 +12,7 @@ if [ $# -gt 0 ];then
             backend \
             php artisan "$@"
 
+    # Run composer commands inside backend container
     elif [ "$1" == "composer" ]; then
         shift 1
         $COMPOSE run --rm \
@@ -21,13 +20,7 @@ if [ $# -gt 0 ];then
             backend \
             composer "$@"
 
-    elif [ "$1" == "test" ]; then
-        shift 1
-        $COMPOSE run --rm \
-            -w /var/www/backend \
-            backend \
-            ./vendor/bin/phpunit "$@"
-
+    # Run npm commands inside frontend container
     elif [ "$1" == "npm" ]; then
         shift 1
         $COMPOSE run --rm \
@@ -35,17 +28,20 @@ if [ $# -gt 0 ];then
             frontend \
             npm "$@"
 
+    # Run npx commands inside frontend container
     elif [ "$1" == "npx" ]; then
         shift 1
         $COMPOSE run --rm \
             -w /var/www/frontend \
             frontend \
             npx "$@"
-
+    # Whatever other commands will run as docker command
     else
         $COMPOSE "$@"
     fi
 
+# By default, on invoke this command without arguments will show a list 
+# of containers currently running
 else
     $COMPOSE ps
 fi
