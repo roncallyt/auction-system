@@ -9,7 +9,6 @@ export default defineConfig({
     hmr: { 
       host: 'localhost',
       protocol: 'ws',
-      port: 3000,
     },
     port: 5173,
     watch: {
