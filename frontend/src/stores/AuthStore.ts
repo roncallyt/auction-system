@@ -15,15 +15,13 @@ export const useAuthStore = defineStore('AuthStore', () => {
   }
 
   async function login(attributes: LoginAttributesInterface) {
-    axios
-      .get('/sanctum/csrf-cookie')
-      .then(() => {
-        axios
-          .post('/login', attributes)
-          .then(({ data }) => {
-            console.log(data)
-          })
-      })
+    await axios.get('/sanctum/csrf-cookie')
+
+    const { 
+      data: { data } 
+    } = await axios.post('/login', attributes)
+
+    user.value = data
   }
 
   async function logout() {

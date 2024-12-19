@@ -20,6 +20,24 @@ const routes = [
     meta: {
       layout: 'AppLayout',
       middleware: [ auth ]
+    },
+  },
+  { 
+    path: '/profile', 
+    name: 'MyProfile',
+    component: () => import('../views/MyProfile.vue'),
+    meta: {
+      layout: 'AppLayout',
+      middleware: [ auth ]
+    }
+  },
+  { 
+    path: '/auctions', 
+    name: 'AuctionIndex',
+    component: () => import('../views/AuctionIndex.vue'),
+    meta: {
+      layout: 'AppLayout',
+      middleware: [ auth ]
     }
   },
 ]

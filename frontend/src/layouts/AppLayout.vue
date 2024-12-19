@@ -1,6 +1,3 @@
-<script setup lang="ts">
-</script>
-
 <template>
   <div class="min-h-full">
     <div class="bg-indigo-600 pb-32">
@@ -9,16 +6,30 @@
           <div class="relative flex h-16 items-center justify-between lg:border-b lg:border-indigo-400/25">
             <div class="flex items-center px-2 lg:px-0">
               <div class="shrink-0">
-                <img class="block size-8" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=300" alt="Your Company">
+                <Icon icon="hugeicons:auction" class="block size-8 text-white/80" />
               </div>
               <div class="hidden lg:ml-10 lg:block">
                 <div class="flex space-x-4">
                   <!-- Current: "bg-indigo-700 text-white", Default: "text-white hover:bg-indigo-500/75" -->
-                  <a href="#" class="rounded-md bg-indigo-700 px-3 py-2 text-sm font-medium text-white" aria-current="page">Dashboard</a>
-                  <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-indigo-500/75">Team</a>
-                  <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-indigo-500/75">Projects</a>
-                  <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-indigo-500/75">Calendar</a>
-                  <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-indigo-500/75">Reports</a>
+                  <router-link
+                    :to="{ name: 'Home' }"
+                    class="rounded-md bg-indigo-700 px-3 py-2 text-sm font-medium text-white" 
+                    aria-current="page"
+                  >
+                    Home
+                  </router-link>
+                  <router-link
+                    :to="{ name: 'AuctionIndex' }" 
+                    class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-indigo-500/75"
+                  >
+                    Auctions
+                  </router-link>
+                  <a 
+                    href="#" 
+                    class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-indigo-500/75"
+                  >
+                    Users
+                  </a>
                 </div>
               </div>
             </div>

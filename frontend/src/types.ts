@@ -1,8 +1,11 @@
-interface LoginAttributesInterface {
+export interface LoginAttributesInterface {
   email: string,
   password: string
 }
 
-export type {
-  LoginAttributesInterface
+export interface AuctionAttributesInterface {
+  product: string,
+  description: string,
+  starting_bid: string,
+  status: string,
 }
