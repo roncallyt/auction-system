@@ -1,13 +1,25 @@
 <script setup lang="ts">
   import { ref } from 'vue'
+  import { useRouter } from 'vue-router'
   import { storeToRefs } from 'pinia'
   import { onClickOutside } from '@vueuse/core'
   import { useAuthStore } from '../stores/AuthStore'
 
+  const router = useRouter()
   const authStore = useAuthStore()
 
   const { user } = storeToRefs(authStore)
 
+  async function logout() {
+    await authStore.logout()
+
+    router.push({ name: 'Login' });
+  }
+
+  /**
+   *
+   * Dropdown's feature
+   */
   const opened = ref(false)
 
   function toggle() {
@@ -57,25 +69,25 @@
         aria-labelledby="user-menu-button" 
         tabindex="-1"
       >
-        <!-- Active: "bg-gray-100 outline-none", Not Active: "" -->
-        <a 
-          href="#" 
+        <router-link
+          :to="{ name: 'MyProfile' }"
           class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 outline-none" 
           role="menuitem" 
           tabindex="-1" 
           id="user-menu-item-0"
         >
-          Your Profile
-        </a>
-        <a 
-          href="#" 
-          class="block px-4 py-2 text-sm text-gray-700" 
+          My Profile
+        </router-link>
+
+        <button
+          @click="logout"
+          class="w-full inline-flex justify-start px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 outline-none" 
           role="menuitem" 
           tabindex="-1" 
           id="user-menu-item-2"
         >
           Sign Out
-        </a>
+        </button>
       </div>
     </Transition>
   </div>
